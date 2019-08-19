@@ -2,7 +2,6 @@ Flask==0.11.1
 get
 gunicorn==19.6.0
 post
-setupfiles
 requests
 wikipedia
 line-bot-sdk
