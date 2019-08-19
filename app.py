@@ -28,7 +28,7 @@ def index():
     return "Hello World!"
 
 
-@app.route('/joey', methods=['POST'])
+@app.route('/callback', methods=['POST'])
 def callback():
     #try:
     json_line = request.get_json(force=False,cache=False)
@@ -48,6 +48,7 @@ def callback():
 
 
 def event_handle(event):
+    print(event)
     try:
         userId = event['source']['userId']
     except:
