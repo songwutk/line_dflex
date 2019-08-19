@@ -84,7 +84,7 @@ def event_handle(event):
     return ''
 
 def textmessagehandler(msg):
-    msg = translatorfunc(msg)
+    msg = translatefunc(msg)
     return msg
 
 from googletrans import Translator
