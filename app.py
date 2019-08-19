@@ -81,7 +81,7 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
 
-def testmessagehandler(msg):
+def textmessagehandler(msg):
     return msg
 
 if __name__ == '__main__':
