@@ -25,11 +25,11 @@ line_bot_api = LineBotApi(lineaccesstoken)
 ####################### new ########################
 @app.route('/webhook', methods=['POST'])
 def callback():
-    try:
-        json_line = request.get_json(force=False,cache=False)
-    except:
-        print('cannot get json_line')
-        return '',200
+    #try:
+    json_line = request.get_json(force=False,cache=False)
+    #except:
+    #    print('cannot get json_line')
+    #    return '',200
     json_line = json.dumps(json_line)
     decoded = json.loads(json_line)
     no_event = len(decoded['events'])
