@@ -77,6 +77,7 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
 
     else:
+        sk_id = np.random.randint(1,17)
         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
