@@ -4,6 +4,7 @@
 ###
 from flask import Flask, jsonify, render_template, request
 import json
+import numpy as np
 
 #import pymongo
 #from pymongo import MongoClient
