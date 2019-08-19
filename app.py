@@ -84,7 +84,20 @@ def event_handle(event):
     return ''
 
 def textmessagehandler(msg):
+    msg = translatorfunc(msg)
     return msg
+
+from googletrans import Translator
+translator = Translator()
+
+def translatefunc(msg):
+    lang = translator.detect(msg).lang
+    if lang == 'th':
+        out = translator.translate(msg,'en').text
+    else:
+        out = translator.translate(msg,'th').text
+    return out
+
 
 if __name__ == '__main__':
     app.run(debug=True)
