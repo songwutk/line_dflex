@@ -23,7 +23,12 @@ lineaccesstoken = 'CJVcBKqaM55S2pmJq9VSi4b62QE5v2I1xcPBWehys0KuqEjtvRbJDjmJCVll5
 line_bot_api = LineBotApi(lineaccesstoken)
 
 ####################### new ########################
-@app.route('/webhook', methods=['POST'])
+@app.route('/')
+def index():
+    return "Hello World!"
+
+
+@app.route('/joey', methods=['POST'])
 def callback():
     #try:
     json_line = request.get_json(force=False,cache=False)
@@ -78,5 +83,5 @@ def event_handle(event):
 def testmessagehandler(msg):
     return msg
 
-if __name__ == '__main__':
-    app.run(threaded=True)
+#if __name__ == '__main__':
+#    app.run(threaded=True)
