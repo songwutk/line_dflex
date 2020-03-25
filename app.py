@@ -6,10 +6,6 @@ from flask import Flask, jsonify, render_template, request
 import json
 import numpy as np
 
-#import pymongo
-#from pymongo import MongoClient
-#from flask_restful import Resource, Api, reqparse
-
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
 )
@@ -29,22 +25,15 @@ def index():
     return "Hello World!"
 
 
-@app.route('/callback', methods=['POST'])
+@app.route('/webhook', methods=['POST'])
 def callback():
-    #try:
     json_line = request.get_json(force=False,cache=False)
-    #except:
-    #    print('cannot get json_line')
-    #    return '',200
     json_line = json.dumps(json_line)
     decoded = json.loads(json_line)
     no_event = len(decoded['events'])
     for i in range(no_event):
         event = decoded['events'][i]
-        #try:
         event_handle(event)
-        #except:
-        #    pass
     return '',200
 
 
@@ -70,7 +59,7 @@ def event_handle(event):
         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
         line_bot_api.reply_message(rtoken, replyObj)
         return ''
-#
+
     if msgType == "text":
         msg = str(event["message"]["text"])
         outmsg = textmessagehandler(msg)
@@ -82,31 +71,6 @@ def event_handle(event):
         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
-
-replyDic = {}
-replyDic['สวัสดี'] = 'ว่าไงจ๊ะ'
-replyDic['ขอโทษ'] = 'ไม่เป็นไรค่ะ'
-
-def textmessagehandler(msg):
-    #msg = translatefunc(msg)
-    try:
-        msg = replyDic[msg]
-    except:
-        msg = 'ไม่เข้าใจครับ'
-
-    return msg
-
-from googletrans import Translator
-translator = Translator()
-
-def translatefunc(msg):
-    lang = translator.detect(msg).lang
-    if lang == 'th':
-        out = translator.translate(msg,'en').text
-    else:
-        out = translator.translate(msg,'th').text
-    return out
-
 
 if __name__ == '__main__':
     app.run(debug=True)
