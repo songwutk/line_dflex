@@ -62,7 +62,8 @@ def event_handle(event):
 
     if msgType == "text":
         msg = str(event["message"]["text"])
-        replyObj = TextSendMessage(text=msg)
+        omsg = textmessagehandler(msg)
+        replyObj = TextSendMessage(text=omsg)
         line_bot_api.reply_message(rtoken, replyObj)
 
     else:
@@ -70,6 +71,9 @@ def event_handle(event):
         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
+
+def textmessagehandler(msg):
+    return msg+'_1234'
 
 if __name__ == '__main__':
     app.run(debug=True)
