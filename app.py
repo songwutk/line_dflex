@@ -72,8 +72,16 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
 
+stock = {}
+stock['ptt'] = '124'
+stock['cpn'] = '151'
+
 def textmessagehandler(msg):
-    return msg+'_1234'
+    try:
+        stockprice = stock[msg]
+    except:
+        stockprice = 'not found'
+    return stockprice
 
 if __name__ == '__main__':
     app.run(debug=True)
