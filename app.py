@@ -62,8 +62,7 @@ def event_handle(event):
 
     if msgType == "text":
         msg = str(event["message"]["text"])
-        omsg = textmessagehandler(msg)
-        replyObj = TextSendMessage(text=omsg)
+        replyObj = TextSendMessage(text=msg)
         line_bot_api.reply_message(rtoken, replyObj)
 
     else:
@@ -72,16 +71,7 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
 
-stock = {}
-stock['ptt'] = '124'
-stock['cpn'] = '151'
 
-def textmessagehandler(msg):
-    try:
-        stockprice = stock[msg]
-    except:
-        stockprice = 'not found'
-    return stockprice
 
 if __name__ == '__main__':
     app.run(debug=True)
