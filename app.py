@@ -80,18 +80,14 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
 
-
-
 def handle_location(lat,lng,cdat,topK):
     result = getdistace(lat, lng,cdat)
     result = result.sort_values(by='km')
     result = result.iloc[0:topK]
     txtResult = ''
     for i in range(len(result)):
-        #try:
         kmdistance = '%.1f'%(result.iloc[i]['km'])
         newssource = str(result.iloc[i]['News_Soruce'])
-        #return kmdistance,newssource
         txtResult = txtResult + kmdistance + '\n' + newssource + '\n\n'
     return txtResult[0:-2]
 
@@ -107,8 +103,6 @@ def getdistace(latitude, longitude,cdat):
     kmsumList.append(ps.vincenty(coords_1, coords_2).km)
   cdat['km'] = kmsumList
   return cdat
-
-
 
 
 if __name__ == '__main__':
