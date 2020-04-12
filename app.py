@@ -72,7 +72,7 @@ def event_handle(event):
         lat = event["message"]["latitude"]
         lng = event["message"]["longitude"]
         txtresult = handle_location(lat,lng,casedata,3)
-        replyObj = TextSendMessage(text=msg)
+        replyObj = TextSendMessage(text=txtresult)
         line_bot_api.reply_message(rtoken, replyObj)
     else:
         sk_id = np.random.randint(1,17)
