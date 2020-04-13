@@ -74,7 +74,7 @@ def event_handle(event):
         lng = event["message"]["longitude"]
         #txtresult = handle_location(lat,lng,casedata,3)
         result = getcaseflex(lat,lng)
-        replyObj FlexSendMessage(alt_text='Flex Message alt text', contents=result)
+        replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=result)
         line_bot_api.reply_message(rtoken, replyObj)
     else:
         sk_id = np.random.randint(1,17)
