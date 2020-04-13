@@ -6,9 +6,10 @@ from flask import Flask, jsonify, render_template, request
 import json
 import numpy as np
 import pandas as pd
+import requests
 import geopy.distance as ps
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage
+    MessageEvent, TextMessage, TextSendMessage,TemplateSendMessage,ImageSendMessage, StickerSendMessage, AudioSendMessage, FlexSendMessage
 )
 from linebot.models.template import *
 from linebot import (
@@ -71,14 +72,16 @@ def event_handle(event):
     if msgType == "location":
         lat = event["message"]["latitude"]
         lng = event["message"]["longitude"]
-        txtresult = handle_location(lat,lng,casedata,3)
-        replyObj = TextSendMessage(text=txtresult)
+        #txtresult = handle_location(lat,lng,casedata,3)
+        result = getcaseflex(lat,lng)
+        replyObj = FlexSendMessage(result)
         line_bot_api.reply_message(rtoken, replyObj)
     else:
         sk_id = np.random.randint(1,17)
         replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
+
 
 def handle_location(lat,lng,cdat,topK):
     result = getdistace(lat, lng,cdat)
@@ -91,6 +94,11 @@ def handle_location(lat,lng,cdat,topK):
         txtResult = txtResult + 'ห่าง %s กิโลเมตร\n%s\n\n'%(kmdistance,newssource)
     return txtResult[0:-2]
 
+
+def getcaseflex(lat,lng):
+    url = 'http://botnoiflexapi.herokuapp.com/getnearcase?lat=%s&long=%s'%(lat,lng)
+    res = requests.get(url).json()
+    return res
 
 def getdistace(latitude, longitude,cdat):
   coords_1 = (float(latitude), float(longitude))
