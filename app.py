@@ -82,13 +82,31 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
 
-def flexmessage():
+
+dat = pd.read_excel('addb.xlsx')
+def getdata(query):
+    res = dat[dat['QueryWord']==query]
+    if len(res)==0:
+        return 'nodata'
+    else:
+        productName = res['ProductName'].values[0]
+        imgUrl = res['ImgUrl'].values[0]
+        desc = res['Description'].values[0]
+        cont = res['Contact'].values[0]
+        return productName,imgUrl,desc,cont
+
+def flexmessage(query):
+    res = getdata(query)
+    if res == 'nodata':
+        return 'nodata'
+    else:
+        productName,imgUrl,desc,cont = res
     flex = '''
     {
         "type": "bubble",
         "hero": {
           "type": "image",
-          "url": "https://res.cloudinary.com/hoyixx2q0/image/upload/v1587305042/image_Uc217a79841540c1b0afe06312a885849_1587305039337.jpg.jpg",
+          "url": "%s",
           "margin": "none",
           "size": "full",
           "aspectRatio": "1:1",
@@ -111,13 +129,13 @@ def flexmessage():
           "contents": [
             {
               "type": "text",
-              "text": "แคปหมูแม่หญิงลำปาง",
+              "text": "%s",
               "size": "xl",
               "weight": "bold"
             },
             {
               "type": "text",
-              "text": "กรอบ อร่อย ไม่เหม็นหืน ห่อละ 100 บาท รวมจัดส่งทั่วไทย",
+              "text": "%s",
               "wrap": true
             }
           ]
@@ -131,30 +149,27 @@ def flexmessage():
               "action": {
                 "type": "postback",
                 "label": "ติดต่อคนขาย",
-                "text": "<<shopcontact>>",
-                "data": "<<shopcontact>>"
+                "data": "%s"
               },
               "color": "#F67878",
               "style": "primary"
             }
           ]
         }
-      }'''
+      }'''%(imgUrl,productName,desc,cont)
     return flex
 
 from linebot.models import (TextSendMessage,FlexSendMessage)
 import json
+
 def handle_text(inpmessage):
-    if inpmessage=='flex':
-        flex = flexmessage()
+    flex = flexmessage(inpmessage)
+    if flex == 'nodata':
+        replyObj = TextSendMessage(text=inpmessage)
+    else:
         flex = json.loads(flex)
         replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=flex)
-    else:
-        replyObj = TextSendMessage(text=inpmessage)
     return replyObj
-
-
-
 
 
 def handle_location(lat,lng,cdat,topK):
