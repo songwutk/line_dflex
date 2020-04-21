@@ -54,14 +54,18 @@ def event_handle(event):
     except:
         print('error cannot get rtoken')
         return ''
-    try:
-        msgType = event["message"]["type"]
-    except:
-        print('error cannot get msgType')
-        sk_id = np.random.randint(1,17)
-        replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
-        line_bot_api.reply_message(rtoken, replyObj)
-        return ''
+    if 'message' in event.keys():
+        try:
+            msgType = event["message"]["type"]
+            msgId = event["message"]["id"]
+        except:
+            print('error cannot get msgID, and msgType')
+            sk_id = np.random.randint(1,17)
+            replyObj = StickerSendMessage(package_id=str(1),sticker_id=str(sk_id))
+            line_bot_api.reply_message(rtoken, replyObj)
+            return ''
+    if 'postback' in event.keys():
+        msgType = 'postback'
 
     if msgType == "text":
         msg = str(event["message"]["text"])
