@@ -82,6 +82,77 @@ def event_handle(event):
         line_bot_api.reply_message(rtoken, replyObj)
     return ''
 
+def flexmessage():
+    flex = '''
+    {
+        "type": "bubble",
+        "hero": {
+          "type": "image",
+          "url": "https://res.cloudinary.com/hoyixx2q0/image/upload/v1587305042/image_Uc217a79841540c1b0afe06312a885849_1587305039337.jpg.jpg",
+          "margin": "none",
+          "size": "full",
+          "aspectRatio": "1:1",
+          "aspectMode": "cover",
+          "action": {
+            "type": "uri",
+            "label": "Action",
+            "uri": "https://linecorp.com"
+          }
+        },
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "spacing": "md",
+          "action": {
+            "type": "uri",
+            "label": "Action",
+            "uri": "https://linecorp.com"
+          },
+          "contents": [
+            {
+              "type": "text",
+              "text": "แคปหมูแม่หญิงลำปาง",
+              "size": "xl",
+              "weight": "bold"
+            },
+            {
+              "type": "text",
+              "text": "กรอบ อร่อย ไม่เหม็นหืน ห่อละ 100 บาท รวมจัดส่งทั่วไทย",
+              "wrap": true
+            }
+          ]
+        },
+        "footer": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "button",
+              "action": {
+                "type": "postback",
+                "label": "ติดต่อคนขาย",
+                "text": "<<shopcontact>>",
+                "data": "<<shopcontact>>"
+              },
+              "color": "#F67878",
+              "style": "primary"
+            }
+          ]
+        }
+      }'''
+    return flex
+
+def handle_text(inpmessage):
+    if inpmessage=='ส่ง flex':
+        flex = flexmessage()
+        replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=result)
+    else:
+        replyObj = TextSendMessage(text=inpmessage)
+    return replyObj
+
+
+
+
 
 def handle_location(lat,lng,cdat,topK):
     result = getdistace(lat, lng,cdat)
