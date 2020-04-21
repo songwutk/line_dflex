@@ -148,7 +148,7 @@ def handle_text(inpmessage):
     if inpmessage=='flex':
         flex = flexmessage()
         flex = json.loads(flex)
-        replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=result)
+        replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=flex)
     else:
         replyObj = TextSendMessage(text=inpmessage)
     return replyObj
