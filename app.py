@@ -69,6 +69,11 @@ def event_handle(event):
         replyObj = handle_text(msg)
         line_bot_api.reply_message(rtoken, replyObj)
 
+    if msgType == "postback":
+        msg = str(event["message"]["postback"]["data"])
+        replyObj = handle_postback(msg)
+        line_bot_api.reply_message(rtoken, replyObj)
+
     if msgType == "location":
         lat = event["message"]["latitude"]
         lng = event["message"]["longitude"]
@@ -169,6 +174,11 @@ def handle_text(inpmessage):
     else:
         flex = json.loads(flex)
         replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=flex)
+    return replyObj
+
+def handle_postback(inpmessage):
+    flex = flexmessage(inpmessage)
+    replyObj = TextSendMessage(text=inpmessage)
     return replyObj
 
 
