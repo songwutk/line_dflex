@@ -66,7 +66,7 @@ def event_handle(event):
 
     if msgType == "text":
         msg = str(event["message"]["text"])
-        replyObj = TextSendMessage(text=msg)
+        replyObj = handle_text(msg)
         line_bot_api.reply_message(rtoken, replyObj)
 
     if msgType == "location":
@@ -142,9 +142,12 @@ def flexmessage():
       }'''
     return flex
 
+from linebot.models import (TextSendMessage,FlexSendMessage)
+import json
 def handle_text(inpmessage):
-    if inpmessage=='ส่ง flex':
+    if inpmessage=='flex':
         flex = flexmessage()
+        flex = json.loads(flex)
         replyObj = FlexSendMessage(alt_text='Flex Message alt text', contents=result)
     else:
         replyObj = TextSendMessage(text=inpmessage)
